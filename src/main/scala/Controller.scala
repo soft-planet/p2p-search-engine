@@ -1,3 +1,5 @@
+import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
+
 import Main.getClass
 
 import scala.io.Codec
@@ -6,17 +8,10 @@ class Controller {
   private var inverseIndex= new InverseIndex
 
   def search(query: String): List[String] = {
-    println("Sucheingabe:"+query)
+
     val searchTokens=new Tokenizer("de",query).tokenize()
     val relSearchTokens=new Stopwords("de").remove(searchTokens)
-
     val searchThesaurus=relSearchTokens++ relSearchTokens.flatMap(q=>new Thesaurus("de").getSynsets(q))
-
-    println("such Thesaurus:")
-    println(searchThesaurus)
-    println("Suche in Stammform")
-    println(new Stemmer(searchThesaurus).stemm())
-
     new Stemmer(searchThesaurus).stemm().flatMap(s=>this.inverseIndex.inverseIndex(s)).toList
 
   }
@@ -36,7 +31,7 @@ class Controller {
     val numPattern = "Nr.[ ]{0,1}[0-9]{2,}".r
 
     for (line <- iter) {
-      // imagine this requires several lines
+
 
       val content=line
       val nr=numPattern.findFirstIn(line).toString.replaceAll("[^0-9]", "");
@@ -47,5 +42,29 @@ class Controller {
     println("Elapsed time: " + (t1 - t0)/1e+6/1000  + "sek")
     this.inverseIndex=inverseIndex
 
+
+  }
+
+  def saveInverseIndex(file:String)={
+
+      val oos = {
+        new ObjectOutputStream(new FileOutputStream(file))
+      }
+      try {
+         oos.writeObject(this.inverseIndex.inverseIndex)
+      } finally {
+        oos.close()
+      }
+
+  }
+
+  def loadInverseIndex(file:String) = {
+    val ois = new ObjectInputStream(new FileInputStream(file))
+    try {
+      this.inverseIndex.inverseIndex = ois.readObject.asInstanceOf[Map[String,Set[String]]]
+
+    } finally {
+      ois.close()
+    }
   }
 }

@@ -1,6 +1,7 @@
-class InverseIndex {
+class InverseIndex{
 
   var inverseIndex = Map("" -> Set(""))
+
 
 
   def insert(uri: String, text: String): Unit = {

@@ -8,11 +8,11 @@ import scala.io.{Codec, Source}
 object Main {
   def main(args: Array[String]) {
 
+    val iFile="inverseIndex.bin"
+    val c=new Controller()
+    c.createInverseIndexCSV("tabelle2019.csv")
+    c.saveInverseIndex(iFile)
 
-    val ccontroller=new Controller()
-    val iv=ccontroller.createInverseIndexCSV("tabelle2019.csv")
-
-   println(ccontroller.search("Räuberin Adlershof"))
 
 
   }
