@@ -1,19 +1,28 @@
 import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
 
+import de.htwb.wissrep.index.InvertedIndex
+
 import Main.getClass
 
 import scala.io.Codec
 
 class Controller {
-  private var inverseIndex= new InverseIndex
+  private var invertedIndex : InvertedIndex[Int, String, Any] = InvertedIndex()
 
   def search(query: String): List[String] = {
-
+    Console.err.println("Query: " + query)
     val searchTokens=new Tokenizer("de",query).tokenize()
     val relSearchTokens=new Stopwords("de").remove(searchTokens)
     val searchThesaurus=relSearchTokens++ relSearchTokens.flatMap(q=>new Thesaurus("de").getSynsets(q))
-    new Stemmer(searchThesaurus).stemm().flatMap(s=>this.inverseIndex.inverseIndex(s)).toList
+    new Stemmer(searchThesaurus).stemm().map(x => {println(x); x}).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
 
+  }
+
+  private def transform(text: String) : Iterable[String]= {
+    val tokens = new Tokenizer("german", text).tokenize();
+    val stemms = new Stemmer(tokens).stemm()
+    val result = new Stopwords("german").remove(stemms)
+    result
   }
 
   def createInverseIndexCSV(file:String)={
@@ -27,20 +36,20 @@ class Controller {
 
 
     val src = scala.io.Source.fromInputStream( getClass.getResourceAsStream(file ) )(Codec("ISO-8859-1"))
-    val iter = src.mkString.split(CRLF)
+    val lines = src.mkString.split(CRLF)
     val numPattern = "Nr.[ ]{0,1}[0-9]{2,}".r
 
-    for (line <- iter) {
+    val docFeatures = lines.map(line => { 
+      val idString = numPattern.findFirstIn(line).toString.replaceAll("[^0-9]", "")
+      val id = if(idString != "") Integer.parseInt(idString) else -1
+      val content = transform(line).map((_, null))
+      (id, content)
+    })
+    invertedIndex = InvertedIndex(docFeatures: _*) 
 
-
-      val content=line
-      val nr=numPattern.findFirstIn(line).toString.replaceAll("[^0-9]", "");
-      inverseIndex.insert(nr,content)
-
-    }
     val t1 = System.nanoTime()
     println("Elapsed time: " + (t1 - t0)/1e+6/1000  + "sek")
-    this.inverseIndex=inverseIndex
+    this.invertedIndex=invertedIndex
 
 
   }
@@ -51,7 +60,7 @@ class Controller {
         new ObjectOutputStream(new FileOutputStream(file))
       }
       try {
-         oos.writeObject(this.inverseIndex.inverseIndex)
+         oos.writeObject(this.invertedIndex.index)
       } finally {
         oos.close()
       }
@@ -61,8 +70,9 @@ class Controller {
   def loadInverseIndex(file:String) = {
     val ois = new ObjectInputStream(new FileInputStream(file))
     try {
-      this.inverseIndex.inverseIndex = ois.readObject.asInstanceOf[Map[String,Set[String]]]
-
+      val index = ois.readObject.asInstanceOf[Map[String, Set[(Int, Any)]]]
+      this.invertedIndex = InvertedIndex(index)
+      Console.err.println(index)
     } finally {
       ois.close()
     }
