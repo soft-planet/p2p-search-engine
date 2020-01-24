@@ -1,4 +1,4 @@
 target
-.metals
+.metals/*
 .idea
 .vscode
