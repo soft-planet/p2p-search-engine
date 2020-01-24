@@ -1240,3 +1240,129 @@ WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/Con
 WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/Controller.scala
 something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/Controller.scala in Map[Int,Set[(String, Any)]]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/Controller.scala, 2219, 2219, 2247)
 WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/Controller.scala
+INFO  started: Metals version 0.8.0 in workspace '/home/damian/git/p2p-search-engine'
+INFO  time: initialize in 2.2s
+INFO  skipping build import with status 'Requested'
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+INFO  no build target: using presentation compiler with only scala-library
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+Jan 24, 2020 3:36:05 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:36:05 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.SignatureHelpProvider.signatureHelp(SignatureHelpProvider.scala:22)
+
+Jan 24, 2020 3:36:11 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:36:11 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.SignatureHelpProvider.signatureHelp(SignatureHelpProvider.scala:22)
+
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+Jan 24, 2020 3:36:27 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:36:27 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.HoverProvider.typedHoverTreeAt(HoverProvider.scala:236)
+	at scala.meta.internal.pc.HoverProvider.hover(HoverProvider.scala:25)
+
+Jan 24, 2020 3:37:23 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:37:23 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.SignatureHelpProvider.signatureHelp(SignatureHelpProvider.scala:22)
+
+Jan 24, 2020 3:37:24 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:37:24 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.HoverProvider.typedHoverTreeAt(HoverProvider.scala:236)
+	at scala.meta.internal.pc.HoverProvider.hover(HoverProvider.scala:25)
+
+Jan 24, 2020 3:37:24 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:37:24 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.HoverProvider.typedHoverTreeAt(HoverProvider.scala:236)
+	at scala.meta.internal.pc.HoverProvider.hover(HoverProvider.scala:25)
+
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+Jan 24, 2020 3:40:27 PM scala.meta.internal.pc.CompilerAccess retryWithCleanCompiler
+INFO: compiler crashed due to an error in the Scala compiler, retrying with new compiler instance.
+Jan 24, 2020 3:40:27 PM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: null
+java.lang.NullPointerException
+	at scala.reflect.internal.Definitions$DefinitionsClass.isByNameParamType(Definitions.scala:417)
+	at scala.reflect.internal.TreeInfo.isStableIdent(TreeInfo.scala:137)
+	at scala.reflect.internal.TreeInfo.isStableIdentifier(TreeInfo.scala:113)
+	at scala.reflect.internal.TreeInfo.isPath(TreeInfo.scala:102)
+	at scala.reflect.internal.TreeInfo.admitsTypeSelection(TreeInfo.scala:155)
+	at scala.tools.nsc.interactive.Global.stabilizedType(Global.scala:959)
+	at scala.tools.nsc.interactive.Global.typedTreeAt(Global.scala:807)
+	at scala.meta.internal.pc.HoverProvider.typedHoverTreeAt(HoverProvider.scala:236)
+	at scala.meta.internal.pc.HoverProvider.hover(HoverProvider.scala:25)
+
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,<error>]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 498)
+something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,I]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 491)
+something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,I]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 491)
+something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,I]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 491)
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala

@@ -1,4 +1,5 @@
-[0m[[0m[0mdebug[0m] [0m[0m"not up to date. inChanged = true, force = false[0m
+[0m[[0m[33mwarn[0m] [0m[0mcirce-numbers_2.13-0.12.3.jar no longer exists at /home/damian/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-numbers_2.13/0.12.3/circe-numbers_2.13-0.12.3.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0m"not up to date. inChanged = false, force = false[0m
 [0m[[0m[0mdebug[0m] [0m[0mUpdating ...[0m
 [0m[[0m[0minfo[0m] [0m[0mUpdating [0m
 [0m[[0m[0minfo[0m] [0m[0mResolved  dependencies[0m
