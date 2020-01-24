@@ -1366,3 +1366,122 @@ something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/d
 something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,I]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 491)
 something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[S,I]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 478, 478, 491)
 WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+Jan 24, 2020 3:46:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+WARNING: Notification threw an exception: {
+  "jsonrpc": "2.0",
+  "method": "metals/didFocusTextDocument",
+  "params": "gitfs:/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala?path%3D%252Fhome%252Fdamian%252Fgit%252Fp2p-search-engine%252Fsrc%252Fmain%252Fscala%252Fde%252Fhtwb%252Fwissrep%252Futil%252FHandler.scala%26ref%3D~"
+}
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:152)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:187)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+	... 11 more
+Caused by: java.nio.file.FileSystemNotFoundException: Provider "gitfs" not installed
+	at java.base/java.nio.file.Path.of(Path.java:212)
+	at java.base/java.nio.file.Paths.get(Paths.java:98)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionString.toAbsolutePath(MetalsEnrichments.scala:413)
+	at scala.meta.internal.metals.MetalsLanguageServer.didFocus(MetalsLanguageServer.scala:693)
+	... 16 more
+
+Jan 24, 2020 3:46:41 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+WARNING: Notification threw an exception: {
+  "jsonrpc": "2.0",
+  "method": "metals/didFocusTextDocument",
+  "params": "gitfs:/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala?path%3D%252Fhome%252Fdamian%252Fgit%252Fp2p-search-engine%252Fsrc%252Fmain%252Fscala%252Fde%252Fhtwb%252Fwissrep%252Futil%252FHandler.scala%26ref%3D~"
+}
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:152)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:187)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+	... 11 more
+Caused by: java.nio.file.FileSystemNotFoundException: Provider "gitfs" not installed
+	at java.base/java.nio.file.Path.of(Path.java:212)
+	at java.base/java.nio.file.Paths.get(Paths.java:98)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionString.toAbsolutePath(MetalsEnrichments.scala:413)
+	at scala.meta.internal.metals.MetalsLanguageServer.didFocus(MetalsLanguageServer.scala:693)
+	... 16 more
+
+Jan 24, 2020 3:46:52 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+Jan 24, 2020 3:46:52 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  code navigation does not work for the file '/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala' because it doesn't belong to a build target.
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+something's wrong: no file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala in de.htwb.wissrep.util.Handler[O,T]RangePosition(file:///home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala, 295, 295, 308)
+WARN  no build target for: /home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala
+Jan 24, 2020 4:01:09 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleNotification
+WARNING: Notification threw an exception: {
+  "jsonrpc": "2.0",
+  "method": "metals/didFocusTextDocument",
+  "params": "gitfs:/home/damian/git/p2p-search-engine/src/main/scala/de/htwb/wissrep/util/Handler.scala?path%3D%252Fhome%252Fdamian%252Fgit%252Fp2p-search-engine%252Fsrc%252Fmain%252Fscala%252Fde%252Fhtwb%252Fwissrep%252Futil%252FHandler.scala%26ref%3D~"
+}
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:152)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:220)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:187)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+	... 11 more
+Caused by: java.nio.file.FileSystemNotFoundException: Provider "gitfs" not installed
+	at java.base/java.nio.file.Path.of(Path.java:212)
+	at java.base/java.nio.file.Paths.get(Paths.java:98)
+	at scala.meta.internal.metals.MetalsEnrichments$XtensionString.toAbsolutePath(MetalsEnrichments.scala:413)
+	at scala.meta.internal.metals.MetalsLanguageServer.didFocus(MetalsLanguageServer.scala:693)
+	... 16 more
+
+Jan 24, 2020 4:01:10 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+Jan 24, 2020 4:01:10 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
+Jan 24, 2020 4:01:11 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
