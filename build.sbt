@@ -17,3 +17,4 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.typesafe.akka" %% "akka-http"   % "10.1.11"
 libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.26"
+libraryDependencies += "com.lihaoyi" %% "upickle" % "0.9.8"
