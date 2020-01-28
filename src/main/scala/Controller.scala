@@ -72,7 +72,6 @@ class Controller {
     try {
       val index = ois.readObject.asInstanceOf[Map[String, Set[(Int, Any)]]]
       this.invertedIndex = InvertedIndex(index)
-      Console.err.println(index)
     } finally {
       ois.close()
     }
