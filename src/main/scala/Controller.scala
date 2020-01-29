@@ -31,8 +31,6 @@ class Controller {
     val CR = 0x0D.toChar
     val LF = 0x0A.toChar
     val CRLF = ""+CR+ CR + LF
-    val inverseIndex= new InverseIndex
-
 
 
     val src = scala.io.Source.fromInputStream( getClass.getResourceAsStream(file ) )(Codec("ISO-8859-1"))
