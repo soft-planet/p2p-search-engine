@@ -5,8 +5,16 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
+import akka.http.scaladsl.unmarshalling.Unmarshal
 
 import scala.io.{Codec, StdIn}
+
+import upickle.default._
+import scala.concurrent.Await
+import scala.concurrent.duration._
+import akka.stream.Materializer
+import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContextExecutor
 
 object WebServer {
   def main(args: Array[String]) {
@@ -18,9 +26,8 @@ object WebServer {
 
     val stream: InputStream = getClass.getResourceAsStream("view/index.html")
     val template = scala.io.Source.fromInputStream(stream)(Codec("ISO-8859-1")).mkString("")
-    val c = new Controller()
-    c.loadInverseIndex("inverseIndex.bin")
 
+    val searchRoute = IndexServer.getSearchRoute
 
     val startPage =
 
@@ -32,17 +39,20 @@ object WebServer {
 
     val requestPage = path("") {
       formField("s") {
-        search =>
+        search =>{
+          val request = IndexRequest(search)
+          val response = searchIndex("http://localhost:8080/search", request)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",
-              c.search(search)
+              response.results
                 .map(nr => "<a href='https://www.berlin.de/polizei/polizeimeldungen/suche.php?q=Nr.+" + nr + "'  class='collection-item' target='_blank'>Nr " + nr + "</a>").mkString(""))
           )
           )
+        }
       }
     }
 
-    val route = concat(startPage, requestPage)
+    val route = concat(startPage, requestPage, searchRoute)
 
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
 
@@ -51,5 +61,14 @@ object WebServer {
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
       .onComplete(_ => system.terminate()) // and shutdown when done
+  }
+
+  def searchIndex(uri: String, request: IndexRequest)
+      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): IndexResponse = {
+    val entity = HttpEntity(ContentTypes.`application/json`, write(request))
+    val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
+    val responseFuture = httpResponse.flatMap(x => Unmarshal(x.entity).to[String])
+    val response = Await.result(responseFuture, 1000.millis)
+    read[IndexResponse](response)
   }
 }
