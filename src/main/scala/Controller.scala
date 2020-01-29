@@ -13,8 +13,7 @@ class Controller {
     println("Suchanfrage: " + query)
     val searchTokens=new Tokenizer("de",query).tokenize()
     val relSearchTokens=new Stopwords("de").remove(searchTokens)
-    val searchThesaurus=relSearchTokens++ relSearchTokens.flatMap(q=>new Thesaurus("de").getSynsets(q))
-    new Stemmer(searchThesaurus).stemm().map(x =>  x).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
+    new Stemmer(relSearchTokens).stemm().map(x =>  x).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
 
   }
 
