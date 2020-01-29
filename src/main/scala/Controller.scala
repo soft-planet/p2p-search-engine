@@ -10,11 +10,11 @@ class Controller {
   private var invertedIndex : InvertedIndex[Int, String, Any] = InvertedIndex()
 
   def search(query: String): List[String] = {
-    Console.err.println("Query: " + query)
+    println("Suchanfrage: " + query)
     val searchTokens=new Tokenizer("de",query).tokenize()
     val relSearchTokens=new Stopwords("de").remove(searchTokens)
     val searchThesaurus=relSearchTokens++ relSearchTokens.flatMap(q=>new Thesaurus("de").getSynsets(q))
-    new Stemmer(searchThesaurus).stemm().map(x => {println(x); x}).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
+    new Stemmer(searchThesaurus).stemm().map(x =>  x).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
 
   }
 
@@ -31,8 +31,6 @@ class Controller {
     val CR = 0x0D.toChar
     val LF = 0x0A.toChar
     val CRLF = ""+CR+ CR + LF
-    val inverseIndex= new InverseIndex
-
 
 
     val src = scala.io.Source.fromInputStream( getClass.getResourceAsStream(file ) )(Codec("ISO-8859-1"))

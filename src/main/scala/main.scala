@@ -12,7 +12,7 @@ object Main {
     val c=new Controller()
     c.createInverseIndexCSV("tabelle2019.csv")
     c.saveInverseIndex(iFile)
-
+  
 
 
   }
