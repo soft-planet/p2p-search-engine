@@ -10,9 +10,9 @@ object Main {
 
     val iFile="inverseIndex.bin"
     val c=new Controller()
-    c.createInverseIndexCSV("tabelle2019.csv")
+    c.createInverseIndexJSON("tabelle2017.json")
     c.saveInverseIndex(iFile)
-  
+
 
 
   }

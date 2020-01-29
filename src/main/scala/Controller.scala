@@ -24,7 +24,7 @@ class Controller {
     result
   }
 
-  def createInverseIndexCSV(file:String)={
+  def createInverseIndexJSON(file:String)={
     val t0 = System.nanoTime()
 
     val CR = 0x0D.toChar
