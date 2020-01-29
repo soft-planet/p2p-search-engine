@@ -1,0 +1,22 @@
+{
+  "sempeer1": {
+    "ip": "141.45.146.164",
+    "port": "8081",
+    "json-path": "src/main/resources/tabelle2019.json"
+  },
+  "sempeer2": {
+    "ip": "141.45.146.165",
+    "port": "8081",
+    "json-path": "src/main/resources/tabelle2018.json"
+  },
+  "sempeer3": {
+    "ip": "141.45.146.166",
+    "port": "8081",
+    "json-path": "src/main/resources/tabelle2017.json"
+  },
+  "sempeer4": {
+    "ip": "141.45.146.167",
+    "port": "8081",
+    "json-path": "src/main/resources/tabelle2016.json"
+  }
+}
