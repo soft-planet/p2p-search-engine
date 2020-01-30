@@ -1,17 +1,18 @@
+import java.io.FileInputStream
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import akka.http.scaladsl.server.Route
+
 import scala.io.StdIn
 import scala.concurrent.Await
 import scala.concurrent.duration._
-
-
-
 import upickle.default._
-import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.{macroRW, ReadWriter => RW}
+import ujson.{Arr, Obj, Value}
 
 
 final case class IndexRequest(request: String)
@@ -23,6 +24,10 @@ object IndexResponse{
   implicit val rw: RW[IndexResponse] = macroRW
 }
 
+final case class Peer(ip:String, port:Int)
+object Peer{
+  implicit val rw: RW[Peer] = macroRW
+}
 
 object IndexServer {
 
@@ -34,10 +39,13 @@ object IndexServer {
     // needed for the future flatMap/onComplete in the end
     implicit val executionContext = system.dispatcher
 
+    val input = new FileInputStream("peer_config.json")
 
-    val bindingFuture = Http().bindAndHandle(getSearchRoute, "localhost", 8081)
+    val content = read[Peer](input)
 
-    println(s"Server online at http://localhost:8081/\nPress RETURN to stop...")
+    val bindingFuture = Http().bindAndHandle(getSearchRoute, content.ip , content.port) //"localhost", 8081)
+
+    println(s"Server online at http://" + content.ip + ":" + content.port + "/\nPress RETURN to stop...")
     StdIn.readLine() // let it run until user presses return
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
