@@ -74,9 +74,11 @@ object WebServer {
       else
         concat(startPage, requestPage)
 
-    val bindingFuture = Http().bindAndHandle(route, "localhost", 80)
+    val accessPoint = scala.io.Source.fromFile("accesspoint.txt").getLines().toList
 
-    println(s"Server online at http://localhost:80/\nPress RETURN to stop...")
+    val bindingFuture = Http().bindAndHandle(route, accessPoint.head, 8080)
+
+    println(s"Server online at http://" + accessPoint.head +":8080/\nPress RETURN to stop...")
     StdIn.readLine() // let it run until user presses return
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
