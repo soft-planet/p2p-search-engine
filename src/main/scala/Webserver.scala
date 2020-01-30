@@ -92,9 +92,9 @@ object WebServer {
     val entity = HttpEntity(ContentTypes.`application/json`, reqJSON)
     val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
     val responseFuture = httpResponse.flatMap(x => Unmarshal(x.entity).to[String])
-    val response = Await.result(responseFuture, 1000.millis)
+    val response = Await.result(responseFuture, 10000.millis)
     val resp = read[IndexResponse](response)
-    println(resp.results.size + " Documents were returned: \n\t" + response.substring(256))
+    println(resp.results.size + " Documents were returned: \n\t" + response.substring(0, 128 max response.length) + "...")
     resp
   }
 }
