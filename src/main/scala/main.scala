@@ -2,7 +2,7 @@ import java.io.InputStream
 
 
 import scala.io.{Codec, Source}
-
+import java.io.File
 
 
 object Main {
@@ -10,9 +10,9 @@ object Main {
 
     val iFile="inverseIndex.bin"
     val c=new Controller()
-    c.createInverseIndexCSV("tabelle2019.csv")
+    c.createInverseIndexJSON("data" + File.separator + "tabelle2017.json")
     c.saveInverseIndex(iFile)
-  
+
 
 
   }
