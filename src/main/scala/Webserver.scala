@@ -94,7 +94,7 @@ object WebServer {
     val responseFuture = httpResponse.flatMap(x => Unmarshal(x.entity).to[String])
     val response = Await.result(responseFuture, 10000.millis)
     val resp = read[IndexResponse](response)
-    println(resp.results.size + " Documents were returned: \n\t" + response.substring(0, 128 max response.length) + "...")
+    println(resp.results.size + " Documents were returned: \n\t" + response.substring(0, 128 min response.length) + "...")
     resp
   }
 }

@@ -65,12 +65,14 @@ object IndexServer {
         post {
           decodeRequest{
             entity(as[String]){ jsonRequest => {
+                println("Recieved Request: " + jsonRequest)
                 val request = read[IndexRequest](jsonRequest)
                 val requestString = request.request
                 val responseList = controller.search(requestString).values.flatten
                 val docCount = controller.index.documentCount
                 val response = IndexResponse(responseList.toList, docCount)
                 val jsonResponse = write(response)
+                println("Returned" + responseList.size + " Documents; ReturnedResponse: " + jsonResponse.substring(0, 128 min jsonResponse.length))
                 complete(HttpEntity(ContentTypes.`application/json`, jsonResponse))
               }
             }
