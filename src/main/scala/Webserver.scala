@@ -45,7 +45,7 @@ object WebServer {
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",
               response.results
-                .map(url => "<a href='"+ url + "'  class='collection-item' target='_blank'> " + url + "</a>").mkString(""))
+                .map(tuple => "<a href='"+ tuple._1 + "'  class='collection-item' target='_blank'> " + tuple._2 + "</a>").mkString(""))
           )
           )
         }

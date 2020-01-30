@@ -50,14 +50,14 @@ private object Bericht{
 }
 
 class Controller {
-  private var invertedIndex : InvertedIndex[String, String, Any] = InvertedIndex()
+  private var invertedIndex : InvertedIndex[String, String, String] = InvertedIndex()
 
-  def search(query: String): List[String] = {
+  def search(query: String): Map[String, String] = {
     println("Suchanfrage: " + query)
     val searchTokens=new Tokenizer("de",query).tokenize()
     val relSearchTokens=new Stopwords("de").remove(searchTokens)
-    new Stemmer(relSearchTokens).stemm().map(x =>  x).flatMap(s=>this.invertedIndex(s).map(_._1.toString())).toList
-
+    val results = new Stemmer(relSearchTokens).stemm().flatMap(this.invertedIndex(_))
+    results.toSeq.distinctBy(_._1).toMap
   }
 
   private def transform(text: String) : Iterable[String]= {
@@ -86,7 +86,7 @@ class Controller {
                                     bericht.date) 
                             .concat(bericht.bezirke)
       val berichtTokens = berichtContent.flatMap(transform)
-                                        .map((_, null))
+                                        .map((_, bericht.title))
       berichtTokens.toSet
     })
 
@@ -116,7 +116,7 @@ class Controller {
   def loadInverseIndex(file:String) = {
     val ois = new ObjectInputStream(new FileInputStream(file))
     try {
-      val index = ois.readObject.asInstanceOf[Map[String, Set[(String, Any)]]]
+      val index = ois.readObject.asInstanceOf[Map[String, Set[(String, String)]]]
       this.invertedIndex = InvertedIndex(index)
     } finally {
       ois.close()

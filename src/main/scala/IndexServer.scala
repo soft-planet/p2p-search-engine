@@ -18,7 +18,7 @@ final case class IndexRequest(request: String)
 object IndexRequest{
   implicit val rw: RW[IndexRequest] = macroRW
 }
-final case class IndexResponse(results: List[String])
+final case class IndexResponse(results: Map[String, String])
 object IndexResponse{
   implicit val rw: RW[IndexResponse] = macroRW
 }
