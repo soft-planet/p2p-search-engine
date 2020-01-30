@@ -45,7 +45,7 @@ object WebServer {
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",
               response.results
-                .map(nr => "<a href='https://www.berlin.de/polizei/polizeimeldungen/suche.php?q=Nr.+" + nr + "'  class='collection-item' target='_blank'>Nr " + nr + "</a>").mkString(""))
+                .map(url => "<a href='"+ url + "'  class='collection-item' target='_blank'> " + url + "</a>").mkString(""))
           )
           )
         }
