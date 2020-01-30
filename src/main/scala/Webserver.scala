@@ -51,7 +51,7 @@ object WebServer {
       formField("s") {
         search =>{
           val request = IndexRequest(search)
-          val response = searchURIs.map(x => {print(x); searchIndex(x, request)}).reduce(_ + _)
+          val response = searchURIs.map(searchIndex(_, request)).reduce(_ + _)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",{
               val cosSim = CosineSimilarity.sparse(response.results.map(_.tokens), response.completeDocumentCount)
