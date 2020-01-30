@@ -13,13 +13,18 @@ import scala.concurrent.duration._
 import upickle.default._
 import upickle.default.{macroRW, ReadWriter => RW}
 import ujson.{Arr, Obj, Value}
+import de.htwb.wissrep.index.CosineSimilarity
 
 
 final case class IndexRequest(request: String)
 object IndexRequest{
   implicit val rw: RW[IndexRequest] = macroRW
 }
-final case class IndexResponse(results: Map[String, String])
+final case class IndexResponse(results: List[PolDocument], completeDocumentCount: Int){
+  def +(that: IndexResponse): IndexResponse = 
+    IndexResponse(this.results ++ that.results,
+                  this.completeDocumentCount + that.completeDocumentCount)
+}
 object IndexResponse{
   implicit val rw: RW[IndexResponse] = macroRW
 }
@@ -62,8 +67,9 @@ object IndexServer {
             entity(as[String]){ jsonRequest => {
                 val request = read[IndexRequest](jsonRequest)
                 val requestString = request.request
-                val responseList = controller.search(requestString)
-                val response = IndexResponse(responseList)
+                val responseList = controller.search(requestString).values.flatten
+                val docCount = controller.index.documentCount
+                val response = IndexResponse(responseList.toList, docCount)
                 val jsonResponse = write(response)
                 complete(HttpEntity(ContentTypes.`application/json`, jsonResponse))
               }

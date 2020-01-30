@@ -15,6 +15,7 @@ import scala.concurrent.duration._
 import akka.stream.Materializer
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContextExecutor
+import de.htwb.wissrep.index.CosineSimilarity
 
 object WebServer {
   def main(args: Array[String]) {
@@ -29,6 +30,12 @@ object WebServer {
 
     val searchRoute = IndexServer.getSearchRoute
 
+    val searchURIs = 
+      if(args.isEmpty)
+        List("http://localhost:8080/search")
+      else
+        args.map("http://" + _ + "/search").toList
+
     val startPage =
 
       path("") {
@@ -41,18 +48,28 @@ object WebServer {
       formField("s") {
         search =>{
           val request = IndexRequest(search)
-          val response = searchIndex("http://localhost:8080/search", request)
+          val response = searchURIs.map(searchIndex(_, request)).reduce(_ + _)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
-            template.replace("{result}",
+            template.replace("{result}",{
+              val cosSim = CosineSimilarity.sparse(response.results.map(_.tokens), response.completeDocumentCount)
+              val req = Controller.transform(search)
               response.results
-                .map(tuple => "<a href='"+ tuple._1 + "'  class='collection-item' target='_blank'> " + tuple._2 + "</a>").mkString(""))
+                .toSeq
+                .sortBy(res => cosSim.getSimilarity(res.tokens, req))
+                .map(doc => "<a href='" + doc.uri + "'  class='collection-item' target='_blank'> " + doc.title + "</a>")
+                .mkString("")
+              })
           )
           )
         }
       }
     }
 
-    val route = concat(startPage, requestPage, searchRoute)
+    val route =
+      if(args.isEmpty)
+        concat(startPage, requestPage, searchRoute)
+      else
+        concat(startPage, requestPage)
 
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
 
@@ -65,10 +82,14 @@ object WebServer {
 
   def searchIndex(uri: String, request: IndexRequest)
       (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): IndexResponse = {
-    val entity = HttpEntity(ContentTypes.`application/json`, write(request))
+    val reqJSON = write(request)
+    println("To " + uri + " Send:\t" + reqJSON)
+    val entity = HttpEntity(ContentTypes.`application/json`, reqJSON)
     val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
     val responseFuture = httpResponse.flatMap(x => Unmarshal(x.entity).to[String])
     val response = Await.result(responseFuture, 1000.millis)
-    read[IndexResponse](response)
+    val resp = read[IndexResponse](response)
+    println(resp.results.size + " Documents were returned: \n\t" + response.substring(256))
+    resp
   }
 }

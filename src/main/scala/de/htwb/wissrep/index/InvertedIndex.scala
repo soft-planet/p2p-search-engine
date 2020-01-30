@@ -68,4 +68,6 @@ class InvertedIndex[D, F, I] private (private val ind: Map[F, Set[(D, I)]]) {
   def features : Set[F] = ind.keySet
   def documents : Set[D] = ind.values.iterator.flatMap(_.map(_._1)).toSet
   def index : Map[F, Set[(D, I)]] = ind
+
+  lazy val documentCount = documents.size
 }

@@ -27,15 +27,31 @@ class CosineSimilarity[T] private (private val idfs : Map[T, Double], private va
 
 object CosineSimilarity{
 
-    private val epsilon = 1e-10
-
     def apply[F](index: InvertedIndex[_, F, _]): CosineSimilarity[F] = {
         val docsForFeature = index.index
             .mapValues(docs => docs.map(_._1))
         val documentCount = docsForFeature.values.fold(Set())(_ ++ _).size
         val featureCounts = docsForFeature.mapValues(_.size)
-        val idfs = featureCounts.view.mapValues(x => math.log(documentCount / x.toDouble) + epsilon).toMap
+        val idfs = featureCounts.view.mapValues(x => math.log(documentCount / x.toDouble)).toMap
         new CosineSimilarity[F](idfs, documentCount)
+    }
+
+    def sparse[T](relevantDocs: Iterable[Iterable[T]], completeDocCount: Int): CosineSimilarity[T] = {
+        val idfs = relevantDocs.flatMap(_.iterator.distinct.toVector)
+                    .groupBy(identity)
+                    .view
+                    .mapValues(_.size)
+                    .mapValues(x => math.log(completeDocCount / x.toDouble))
+                    .toMap
+        new CosineSimilarity[T](idfs, completeDocCount)
+    }
+
+        def sparse[T](documentApperanceCount: Map[T, Int], completeDocCount: Int): CosineSimilarity[T] = {
+        val idfs = documentApperanceCount
+                    .view
+                    .mapValues(x => math.log(completeDocCount / x.toDouble))
+                    .toMap
+        new CosineSimilarity[T](idfs, completeDocCount)
     }
 
     def getTf[T](doc : Iterable[T]): Map[T, Double] ={ 
