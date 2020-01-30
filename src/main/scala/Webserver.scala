@@ -30,11 +30,14 @@ object WebServer {
 
     val searchRoute = IndexServer.getSearchRoute
 
+    val allIps = scala.io.Source.fromFile("webserver_config.txt").getLines().toList
+
     val searchURIs = 
-      if(args.isEmpty)
+      if(!args.isEmpty)
         List("http://localhost:8080/search")
       else
-        args.map("http://" + _ + "/search").toList
+        allIps.map("http://" + _ + "/search")
+
 
     val startPage =
 
