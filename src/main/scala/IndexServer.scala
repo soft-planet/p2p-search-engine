@@ -72,7 +72,7 @@ object IndexServer {
                 val docCount = controller.index.documentCount
                 val response = IndexResponse(responseList.toList, docCount)
                 val jsonResponse = write(response)
-                println("Returned" + responseList.size + " Documents; ReturnedResponse: " + jsonResponse.substring(0, 128 min jsonResponse.length))
+                println("Returned " + responseList.size + " Documents")
                 complete(HttpEntity(ContentTypes.`application/json`, jsonResponse))
               }
             }
