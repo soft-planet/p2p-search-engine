@@ -58,6 +58,7 @@ object WebServer {
               val req = Controller.transform(search)
               response.results
                 .toSeq
+                .distinct
                 .sortBy(res => -cosSim.getSimilarity(res.tokens, req))
                 .map(doc => "<a href='" + doc.uri + "'  class='collection-item' target='_blank'> " + doc.title + "</a>")
                 .mkString("")
