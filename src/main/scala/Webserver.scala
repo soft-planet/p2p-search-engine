@@ -16,6 +16,7 @@ import akka.stream.Materializer
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContextExecutor
 import de.htwb.wissrep.index.CosineSimilarity
+import de.htwb.wissrep.index.CosineSimilarity._
 
 object WebServer {
   def main(args: Array[String]) {
@@ -54,12 +55,12 @@ object WebServer {
           val response = searchURIs.map(searchIndex(_, request)).reduce(_ + _)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",{
-              val cosSim = CosineSimilarity.sparse(response.results.map(_.tokens), response.completeDocumentCount)
+              val cosSim = CosineSimilarity.sparse(response.results, response.completeDocumentCount)
               val req = Controller.transform(search)
               response.results
                 .toSeq
                 .distinct
-                .sortBy(res => -cosSim.getSimilarity(res.tokens, req))
+                .sortBy(res => -cosSim.getSimilarity(res.tokenCounts, req))
                 .map(doc => "<a href='" + doc.uri + "'  class='collection-item' target='_blank'> " + doc.title + "</a>")
                 .mkString("")
               })

@@ -1,6 +1,7 @@
 import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
 
 import de.htwb.wissrep.index.InvertedIndex
+import de.htwb.wissrep.index.CosineSimilarityDocument
 
 import Main.getClass
 
@@ -9,6 +10,7 @@ import scala.io.Codec
 import upickle.default._
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.implicits.key
+
 
 import ujson.{Obj, Arr, Value}
 
@@ -49,8 +51,17 @@ private object Bericht{
   implicit val rw: RW[Bericht] = readwriter[Value].bimap[Bericht](marshall, unmarshall)
 }
 
-final case class PolDocument(title: String, uri: String, tokens: List[String]) extends Serializable
+final case class PolDocument(title: String, uri: String, tokenCounts: Map[String, Int], actualSize: Int) extends Serializable with CosineSimilarityDocument[String]{
+  override def size = actualSize
+  override def getTokenCounts = tokenCounts
+}
+
 object PolDocument{
+  def apply(title: String, uri: String, tokenCounts: Map[String, Int]): PolDocument = 
+    PolDocument(title, uri, tokenCounts, tokenCounts.values.reduceOption(_+_).getOrElse(0))
+  
+  def apply(title: String, uri: String, tokens: List[String]): PolDocument = 
+    PolDocument(title, uri, tokens.groupBy(identity).view.mapValues(_.size).toMap)
   implicit val rw: RW[PolDocument] = macroRW
 }
 
@@ -66,12 +77,8 @@ class Controller {
   private var invertedIndex : InvertedIndex[PolDocument, String, Null] = InvertedIndex()
 
   def search(query: String): Map[String, List[PolDocument]] = {// [serach-word, documents]
-    val searchTokens=new Tokenizer("de",query).tokenize()
-    val relSearchTokens=new Stopwords("de").remove(searchTokens)
-    new Stemmer(relSearchTokens)
-                  .stemm()
-                  .map(x => (x, this.invertedIndex(x).map(_._1).toList))
-                  .toMap
+    val searchTerms = Controller.transform(query)
+    searchTerms.map(x => (x, this.invertedIndex(x).map(_._1).toList)).toMap
   }
 
   
@@ -114,7 +121,7 @@ class Controller {
         new ObjectOutputStream(new FileOutputStream(file))
       }
       try {
-        val index = invertedIndex.index.view.mapValues(_.toList.map(x => (x._1.title, x._1.uri, x._1.tokens))).toList
+        val index = invertedIndex.index.view.mapValues(_.toList.map(x => (x._1.title, x._1.uri, x._1.tokenCounts, x._1.size))).toList
         oos.writeObject(index)
       } finally {
         oos.close()
@@ -125,7 +132,7 @@ class Controller {
   def loadInverseIndex(file:String) = {
     val ois = new ObjectInputStream(new FileInputStream(file))
     try {
-      val rawIndex = ois.readObject.asInstanceOf[List[(String, List[(String, String, List[String])])]]
+      val rawIndex = ois.readObject.asInstanceOf[List[(String, List[(String, String, Map[String, Int], Int)])]]
       val index = rawIndex.map(y => (y._1, y._2.map(x => (PolDocument(x._1, x._2, x._3), null)).toSet)).toMap
       this.invertedIndex = InvertedIndex[PolDocument, String, Null](index)
     } finally {

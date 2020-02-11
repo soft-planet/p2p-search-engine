@@ -68,7 +68,10 @@ object IndexServer {
                 println("Recieved Request: " + jsonRequest)
                 val request = read[IndexRequest](jsonRequest)
                 val requestString = request.request
-                val responseList = controller.search(requestString).values.flatten
+                val requestTokens = Controller.transform(requestString).toSet
+                val rawResponseDocs = controller.search(requestString).values.flatten.toSet
+                val responseList = rawResponseDocs.map(
+                  doc => PolDocument(doc.title, doc.uri, doc.tokenCounts.filter(tup => requestTokens.contains(tup._1)), doc.actualSize))
                 val docCount = controller.index.documentCount
                 val response = IndexResponse(responseList.toList, docCount)
                 val jsonResponse = write(response)
