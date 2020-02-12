@@ -17,6 +17,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContextExecutor
 import de.htwb.wissrep.index.CosineSimilarity
 import de.htwb.wissrep.index.CosineSimilarity._
+import scala.concurrent.Future
 
 object WebServer {
   def main(args: Array[String]) {
@@ -52,7 +53,7 @@ object WebServer {
       formField("s") {
         search =>{
           val request = IndexRequest(search)
-          val response = searchURIs.map(searchIndex(_, request)).reduce(_ + _)
+          val response = searchIndices(searchURIs, request).reduce(_ + _)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",{
               val cosSim = CosineSimilarity.sparse(response.results, response.completeDocumentCount)
@@ -87,16 +88,22 @@ object WebServer {
       .onComplete(_ => system.terminate()) // and shutdown when done
   }
 
+  def searchIndices(uris: Iterable[String], request: IndexRequest)
+      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): List[IndexResponse] = {
+    uris.toList.map(uri => searchIndex(uri, request)).map(Await.result(_, 2500.millis))
+  }
+
   def searchIndex(uri: String, request: IndexRequest)
-      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): IndexResponse = {
+      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): Future[IndexResponse] = {
     val reqJSON = write(request)
     println("To " + uri + " Send:\t" + reqJSON)
     val entity = HttpEntity(ContentTypes.`application/json`, reqJSON)
     val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
-    val responseFuture = httpResponse.flatMap(x => Unmarshal(x.entity).to[String])
-    val response = Await.result(responseFuture, 10000.millis)
-    val resp = read[IndexResponse](response)
-    println(resp.results.size + " Documents were returned")
-    resp
+    val responseFuture = httpResponse
+                            .flatMap(x => Unmarshal(x.entity).to[String])
+                            .map(read[IndexResponse](_))
+                            .map(resp => {println(resp.results.size + " Documents were returned"); resp}) // print the Responses
+    responseFuture
   }
+
 }
