@@ -90,7 +90,7 @@ object WebServer {
 
   def searchIndices(uris: Iterable[String], request: IndexRequest)
       (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): List[IndexResponse] = {
-    uris.toList.map(uri => searchIndex(uri, request)).map(Await.result(_, 2500.millis))
+    uris.toList.map(uri => searchIndex(uri, request)).map(Await.result(_, 10.seconds))
   }
 
   def searchIndex(uri: String, request: IndexRequest)
