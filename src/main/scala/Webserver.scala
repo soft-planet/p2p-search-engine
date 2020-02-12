@@ -62,6 +62,7 @@ object WebServer {
                 .toSeq
                 .distinct
                 .sortBy(res => -cosSim.getSimilarity(res.tokenCounts, req))
+                .take(128)
                 .map(doc => "<a href='" + doc.uri + "'  class='collection-item' target='_blank'> " + doc.title + "</a>")
                 .mkString("")
               })
