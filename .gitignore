@@ -1,6 +1,8 @@
-target
-.metals/*
+target/
+project/
+.metals
 .idea
 .vscode
 peer_config.json
 accesspoint.txt
+inverseIndex.bin
