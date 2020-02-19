@@ -34,9 +34,12 @@ object WebServer {
 
     val allIps = scala.io.Source.fromFile("webserver_config.txt").getLines().toList
 
+    
+    val accessPoint = scala.io.Source.fromFile("accesspoint.txt").getLines().toList
+    
     val searchURIs = 
       if(!args.isEmpty)
-        List("http://localhost:8080/search")
+        List("http://" + accessPoint.head + ":8080/search")
       else
         allIps.map("http://" + _ + "/search")
 
@@ -73,12 +76,10 @@ object WebServer {
     }
 
     val route =
-      if(args.isEmpty)
+      if(!args.isEmpty)
         concat(startPage, requestPage, searchRoute)
       else
         concat(startPage, requestPage)
-
-    val accessPoint = scala.io.Source.fromFile("accesspoint.txt").getLines().toList
 
     val bindingFuture = Http().bindAndHandle(route, accessPoint.head, 8080)
 
@@ -101,8 +102,8 @@ object WebServer {
     val entity = HttpEntity(ContentTypes.`application/json`, reqJSON)
     val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
     val responseFuture = httpResponse
-                            .flatMap(x => Unmarshal(x.entity).to[String])
-                            .map(read[IndexResponse](_))
+                            .flatMap(x => {println(x); Unmarshal(x.entity).to[String]})
+                            .map(x => { println(x); read[IndexResponse](x)})
                             .map(resp => {println(resp.results.size + " Documents were returned"); resp}) // print the Responses
     responseFuture
   }
