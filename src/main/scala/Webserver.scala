@@ -102,8 +102,8 @@ object WebServer {
     val entity = HttpEntity(ContentTypes.`application/json`, reqJSON)
     val httpResponse = Http(as).singleRequest(HttpRequest(method = HttpMethods.POST, uri = uri, entity = entity))
     val responseFuture = httpResponse
-                            .flatMap(x => {println(x); Unmarshal(x.entity).to[String]})
-                            .map(x => { println(x); read[IndexResponse](x)})
+                            .flatMap(x => Unmarshal(x.entity).to[String])
+                            .map(read[IndexResponse](_))
                             .map(resp => {println(resp.results.size + " Documents were returned"); resp}) // print the Responses
     responseFuture
   }
