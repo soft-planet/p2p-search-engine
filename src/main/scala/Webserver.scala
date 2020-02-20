@@ -32,17 +32,22 @@ object WebServer {
 
     val searchRoute = IndexServer.getSearchRoute
 
-    val allIps = scala.io.Source.fromFile("webserver_config.txt").getLines().toList
+    val allIps = scala.io.Source.fromFile("webserver_config.txt")
+                  .getLines()
+                  .map(_.split(" "))
+                  .map(x => if(x.size > 1) (x(0), x(1)) else (x(0), x(0)))
+                  .toList.toList
 
     
     val accessPoint = scala.io.Source.fromFile("accesspoint.txt").getLines().toList
-    
+
+
     val searchURIs = 
       if(!args.isEmpty)
-        List("http://" + accessPoint.head + ":8080/search")
+        Map("http://" + accessPoint.head + ":8080/search" -> accessPoint.head)
       else
-        allIps.map("http://" + _ + "/search")
-
+        allIps.map(x => ("http://" + x._1 + "/search", x._2)).distinct.toMap
+    
 
     val startPage =
 
@@ -56,19 +61,20 @@ object WebServer {
       formField("s") {
         search =>{
           val request = IndexRequest(search)
-          val response = searchIndices(searchURIs, request).reduce(_ + _)
+          val resultList = searchIndices(searchURIs.keys, request)
+          val corpus = resultList.map(_._2).reduce(_ + _)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
             template.replace("{result}",{
-              val cosSim = CosineSimilarity.sparse(response.results, response.completeDocumentCount)
+              val cosSim = CosineSimilarity.sparse(corpus.results, corpus.completeDocumentCount)
               val req = Controller.transform(search)
-              response.results
+              resultList.flatMap(res => res._2.results.map(x => (res._1, x)))
                 .toSeq
                 .distinct
-                .map(res => (res, -cosSim.getSimilarity(res.tokenCounts, req)))
+                .map(res => (res, -cosSim.getSimilarity(res._2.tokenCounts, req)))
                 .sortBy(_._2)
                 .take(128)
                 .map(_._1)
-                .map(doc => "<a href='" + doc.uri + "'  class='collection-item' target='_blank'> " + doc.title + "</a>")
+                .map(res => "<a href='" + res._2.uri + "'  class='collection-item' target='_blank'> " + res._2.title + "<span class=\"badge\">" + searchURIs(res._1) + "</span></a>")
                 .mkString("")
               })
           )
@@ -93,8 +99,8 @@ object WebServer {
   }
 
   def searchIndices(uris: Iterable[String], request: IndexRequest)
-      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): List[IndexResponse] = {
-    uris.toList.map(uri => searchIndex(uri, request)).map(Await.result(_, 10.seconds))
+      (implicit as: ActorSystem, mat : Materializer, ec: ExecutionContextExecutor): List[(String, IndexResponse)] = {
+    uris.toList.map(uri => (uri, searchIndex(uri, request))).map(x => (x._1, Await.result(x._2, 10.seconds)))
   }
 
   def searchIndex(uri: String, request: IndexRequest)
